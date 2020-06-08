@@ -36,8 +36,8 @@ bird_y = 300
 bird_speedy = 0
  
 trees_x = 850
-treedown_y = HEIGHT - TREE_HEIGHT
-treeup_y = 0
+treeup_y = random.randint(-10, 0)
+treedown_y = treeup_y + TREE_HEIGHT + 60
 trees_speedx = 0
 
 # Variável para o ajuste de velocidade
@@ -60,7 +60,7 @@ while game:
                 bird_speedy = 10
                 trees_speedx = -8
 
-    space = random.randint
+    #space = random.randint
 
     bird_y += bird_speedy
     trees_x += trees_speedx
