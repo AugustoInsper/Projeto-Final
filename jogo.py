@@ -16,6 +16,7 @@ BIRD_WIDTH = 125
 BIRD_HEIGHT = 103
 TREE_WIDTH = 108
 TREE_HEIGHT = 300                                                            # sera que tem que fazer
+
 font = pygame.font.SysFont(None, 48)                                         # alturas diferentes para
 background = pygame.image.load('source.gif').convert()                       # as duas árvores?
 background = pygame.transform.scale(background, (1000, 600))
