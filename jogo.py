@@ -28,11 +28,11 @@ tree = pygame.transform.scale(tree, (TREE_WIDTH, TREE_HEIGHT))
 game = True
  
 bird_x = 250
-bird_y = 300
+bird_y = 200
 bird_speedy = 0
  
 tree_x = 850
-tree_y = - HEIGHT + TREE_HEIGHT
+tree_y = HEIGHT - TREE_HEIGHT
  
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
@@ -51,7 +51,9 @@ while game:
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 bird_speedy = 10
- 
+
+    if bird_y == 350 or bird_y < -100:
+            game = False
     bird_y += bird_speedy
  
     # ----- Gera saídas
@@ -66,4 +68,3 @@ while game:
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
 
-#teste python
