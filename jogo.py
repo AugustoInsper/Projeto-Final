@@ -57,11 +57,11 @@ while game:
                 trees_speedx = -8
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
-                bird_speedy = 10
+                bird_speedy = 5
                 trees_speedx = -8
 
-        if bird_y == 350 or bird_y < -100:
-            game = False
+    if bird_y == 350 or bird_y < -100:
+        game = False
 
     space = random.randint
 
@@ -80,3 +80,4 @@ while game:
  
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizadoss
+
