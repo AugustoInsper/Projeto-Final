@@ -22,9 +22,9 @@ background = pygame.image.load('source.gif').convert()                       # a
 background = pygame.transform.scale(background, (1000, 600))
 bird = pygame.image.load('red_bird.gif').convert_alpha()
 bird = pygame.transform.scale(bird, (BIRD_WIDTH, BIRD_HEIGHT))
-treedown = pygame.image.load('arvore.jpg').convert_alpha()
+treedown = pygame.image.load('tronco.png').convert_alpha()
 treedown = pygame.transform.scale(treedown, (TREE_WIDTH, TREE_HEIGHT))
-treeup = pygame.image.load('arvore pra baixo.jpg').convert_alpha()
+treeup = pygame.image.load('tronco.png').convert_alpha()
 treeup = pygame.transform.scale(treeup, (TREE_WIDTH, TREE_HEIGHT))
 
 
@@ -32,7 +32,7 @@ treeup = pygame.transform.scale(treeup, (TREE_WIDTH, TREE_HEIGHT))
 game = True
  
 bird_x = 250
-bird_y = 300
+bird_y = 200
 bird_speedy = 0
  
 trees_x = 850
@@ -60,7 +60,10 @@ while game:
                 bird_speedy = 10
                 trees_speedx = -8
 
-    #space = random.randint
+#        if bird_y == 350 or bird_y < -100:
+#            game = False
+
+#   space = random.randint
 
     bird_y += bird_speedy
     trees_x += trees_speedx
