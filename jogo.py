@@ -15,15 +15,18 @@ pygame.display.set_caption('Hello World!')
 BIRD_WIDTH = 125
 BIRD_HEIGHT = 103
 TREE_WIDTH = 108
-TREE_HEIGHT = 90
-font = pygame.font.SysFont(None, 48)
-background = pygame.image.load('source.gif').convert()
+TREE_HEIGHT = 300                                                            # sera que tem que fazer
+font = pygame.font.SysFont(None, 48)                                         # alturas diferentes para
+background = pygame.image.load('source.gif').convert()                       # as duas árvores?
 background = pygame.transform.scale(background, (1000, 600))
 bird = pygame.image.load('red_bird.gif').convert_alpha()
 bird = pygame.transform.scale(bird, (BIRD_WIDTH, BIRD_HEIGHT))
-tree = pygame.image.load('arvore.jpg').convert_alpha()
-tree = pygame.transform.scale(tree, (TREE_WIDTH, TREE_HEIGHT))
- 
+treedown = pygame.image.load('arvore.jpg').convert_alpha()
+treedown = pygame.transform.scale(treedown, (TREE_WIDTH, TREE_HEIGHT))
+treeup = pygame.image.load('arvore pra baixo.jpg').convert_alpha()
+treeup = pygame.transform.scale(treeup, (TREE_WIDTH, TREE_HEIGHT))
+
+
 # ----- Inicia estruturas de dados
 game = True
  
@@ -31,9 +34,11 @@ bird_x = 250
 bird_y = 300
 bird_speedy = 0
  
-tree_x = 850
-tree_y = HEIGHT - TREE_HEIGHT
- 
+trees_x = 850
+treedown_y = HEIGHT - TREE_HEIGHT
+treeup_y = 0
+trees_speedx = 0
+
 # Variável para o ajuste de velocidade
 clock = pygame.time.Clock()
 FPS = 30
@@ -48,17 +53,23 @@ while game:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 bird_speedy = -10
+                trees_speedx = -8
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
                 bird_speedy = 10
- 
+                trees_speedx = -8
+
+    space = random.randint
+
     bird_y += bird_speedy
+    trees_x += trees_speedx
  
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
     window.blit(background, (0, 0))
     window.blit(bird, (bird_x, bird_y))
-    window.blit(tree, (tree_x, tree_y))
+    window.blit(treedown, (trees_x, treedown_y))
+    window.blit(treeup, (trees_x, treeup_y))
  
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
