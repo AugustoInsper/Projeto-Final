@@ -32,7 +32,7 @@ treeup = pygame.transform.scale(treeup, (TREE_WIDTH, TREE_HEIGHT))
 game = True
  
 bird_x = 250
-bird_y = 300
+bird_y = 200
 bird_speedy = 0
  
 trees_x = 850
@@ -59,6 +59,9 @@ while game:
             if event.key == pygame.K_SPACE:
                 bird_speedy = 10
                 trees_speedx = -8
+
+        if bird_y == 350 or bird_y < -100:
+            game = False
 
     space = random.randint
 
