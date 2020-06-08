@@ -64,4 +64,4 @@ while game:
     pygame.display.update()  # Mostra o novo frame para o jogador
  
 # ===== Finalização =====
-pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+pygame.quit()  # Função do PyGame que finaliza os recursos utilizadoss
