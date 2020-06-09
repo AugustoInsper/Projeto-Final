@@ -15,10 +15,10 @@ pygame.display.set_caption('Hello World!')
 BIRD_WIDTH = 125
 BIRD_HEIGHT = 103
 TREE_WIDTH = 108
-TREE_HEIGHT = 300                                                            # sera que tem que fazer
+TREE_HEIGHT = 300                                                            
 
-font = pygame.font.SysFont(None, 48)                                         # alturas diferentes para
-background = pygame.image.load('source.gif').convert()                       # as duas árvores?
+font = pygame.font.SysFont(None, 48)                                         
+background = pygame.image.load('source.gif').convert()                       
 background = pygame.transform.scale(background, (1000, 600))
 bird = pygame.image.load('red_bird.gif').convert_alpha()
 bird = pygame.transform.scale(bird, (BIRD_WIDTH, BIRD_HEIGHT))
