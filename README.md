@@ -1,3 +1,3 @@
-# Projeto Final
+# Projeto Final - Flepássaro
 
-Flépi Pássaro
+![Capa](Capa_flepassaro.jpg)
