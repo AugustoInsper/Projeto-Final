@@ -4,7 +4,7 @@
 
 **DESCRIÇÃO**
 
-  Flepássaro é um jogo que consiste em fazer o nosso pássaro vermelho favorito, o Flepinho, passar pelos obstáculos. Os quais são toras de madeiras que ao encostar em nosso simpático personagem, mata-o instantaneamente. Com isso, o principal objetivo do game é fazer Flepinho ir o mais longe possível nesse ambiente instável e aleatório do Mapazul, local em que nosso é ambientado.
+  Flepássaro é um jogo que consiste em fazer o nosso pássaro vermelho favorito, o Flepinho, passar pelos obstáculos. Os quais são toras de madeiras que ao encostar em nosso simpático personagem, mata-o instantaneamente. Com isso, o principal objetivo do game é fazer Flepinho ir o mais longe possível nesse ambiente instável e aleatório do Mapazul, local em que nossa aventura é ambientada.
   Além disso, é importante destacar que este é um jogo inspirado em outro já existente, chamado Flappy Bird. Porém, Flepássaro é um projeto escrito por dois alunos de graduação em engenharia do Insper.
   
 **LINGUAGEM UTILIZADA**
