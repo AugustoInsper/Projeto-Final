@@ -1,3 +1,3 @@
 # Projeto Final - Flepássaro
 
-![Capa](Capa.png)
+![Capa](Capa.jpg)
