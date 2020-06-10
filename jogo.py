@@ -4,7 +4,7 @@ import pygame
 import random
  
 pygame.init()
- 
+
 # ----- Gera tela principal
 WIDTH = 1000
 HEIGHT = 600
@@ -20,7 +20,7 @@ TREE_HEIGHT = 300
 font = pygame.font.SysFont(None, 48)                                         
 background = pygame.image.load('source.gif').convert()                       
 background = pygame.transform.scale(background, (1000, 600))
-bird = pygame.image.load('red_bird.gif').convert_alpha()
+bird = pygame.image.load('red_bird.png').convert_alpha()
 bird = pygame.transform.scale(bird, (BIRD_WIDTH, BIRD_HEIGHT))
 treedown = pygame.image.load('tronco.png').convert_alpha()
 treedown = pygame.transform.scale(treedown, (TREE_WIDTH, TREE_HEIGHT))
@@ -60,8 +60,8 @@ while game:
                 bird_speedy = 5
                 trees_speedx = -8
 
-#        if bird_y == 350 or bird_y < -100:
-#            game = False
+    if bird_y == 350 or bird_y < -100:
+        game = False
 
 #   space = random.randint
 
