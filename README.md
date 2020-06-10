@@ -1,5 +1,3 @@
-**Projeto Final - Flepássaro
+# Projeto Final - Flepássaro
 
-![Capa].(Capa.png)
-
-Flépi Pássaro
+![Capa](Capa.png)
