@@ -37,7 +37,7 @@ assets["background_anim"] = background_anim
 player_anim = []
 for i in range(73):
     # Os arquivos de animação são numerados de 00 a 72
-    filename = 'red bird frames/{}.png'.format(i)
+    filename = 'red_bird_frames/oie_transparent ({}).png'.format(i)
     img = pygame.image.load(filename).convert_alpha()
     img = pygame.transform.scale(img, (BIRD_WIDTH, BIRD_HEIGHT))   # pegar dimensões do passarinho
     player_anim.append(img)
@@ -81,6 +81,8 @@ class Player(pygame.sprite.Sprite):
         self.rect.y += self.speedy
         if self.rect.bottom > HEIGHT:
             self.rect.bottom = HEIGHT
+        if self.rect.top < 0:
+            self.rect.top = 0
 
             
 class Background(pygame.sprite.Sprite):
@@ -123,7 +125,7 @@ class Treeup(pygame.sprite.Sprite):
 
         self.image = assets['tronco']
         self.rect = self.image.get_rect()
-        self.rect.x = 850
+        self.rect.x = 1100
         self.rect.y = 0
         self.speedx = 0
 
@@ -137,45 +139,12 @@ class Treedown(pygame.sprite.Sprite):
 
         self.image = assets['tronco']
         self.rect = self.image.get_rect()
-        self.rect.x = 850
+        self.rect.x = 1100
         self.rect.y = 0
         self.speedx = 0
 
     def update(self):
         self.rect.x += self.speedx
-
-# Implantando o gif de voo
-fly_gif = []
-for i in range(73):
-    arquivo = 'red_bird_frames/oie_transparent ({}).png'.format(i)
-    img = pygame.image.load(arquivo).convert()
-    img = pygame.transform.scale(img, (BIRD_WIDTH, BIRD_HEIGHT))
-    fly_gif.append(img)
-assets["fly_gif"] = fly_gif
-
-# Classe do pássaro voando
-class Fly(pygame.sprite.Sprite):
-    # Construtor da classe.
-    def __init__(self, center, assets):
-        # Construtor da classe mãe (Sprite).
-        pygame.sprite.Sprite.__init__(self)
-
-        # Armazena a animação de explosão
-        self.fly_gif = assets['fly_gif']
-
-        # Inicia o processo de animação colocando a primeira imagem na tela.
-        self.frame = 0  # Armazena o índice atual na animação
-        self.image = self.fly_gif[self.frame]  # Pega a primeira imagem
-        self.rect = self.image.get_rect()
-        self.rect.center = center  # Posiciona o centro da imagem
-
-        # Guarda o tick da primeira imagem, ou seja, o momento em que a imagem foi mostrada
-        self.last_update = pygame.time.get_ticks()
-
-        # Controle de ticks de animação: troca de imagem a cada self.frame_ticks milissegundos.
-        # Quando pygame.time.get_ticks() - self.last_update > self.frame_ticks a
-        # próxima imagem da animação será mostrada
-        self.frame_ticks = 10
 
 # ----- Inicia estruturas de dados
 game = True
@@ -189,20 +158,69 @@ clock = pygame.time.Clock()
 FPS = 30
 
 all_sprites = pygame.sprite.Group()
+all_trees = pygame.sprite.Group()
+
 player = Player((bird_x, bird_y), assets)
 background = Background((0, 0), assets)
-treeup = Treeup(assets)
-treedown = Treedown(assets)
+treeup1 = Treeup(assets)
+treedown1 = Treedown(assets)
+
+all_trees.add(treeup1)
+all_trees.add(treedown1)
+
 all_sprites.add(background)
 all_sprites.add(player)
-all_sprites.add(treeup)
-all_sprites.add(treedown)
+all_sprites.add(treeup1)
+all_sprites.add(treedown1)
 
-treeup.rect.y = random.randint(-TREE_HEIGHT, 0)
-treedown.rect.y = treeup.rect.y + TREE_HEIGHT + 123
+treeup1.rect.y = random.randint(-TREE_HEIGHT, 0)
+treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
+
+tup2 = False
+
 # ===== Loop principal =====
 while game:
-    
+
+    if treeup1.rect.x == 500:
+        treeup2 = Treeup(assets)
+        treedown2 = Treedown(assets)
+
+        all_sprites.add(treeup2)
+        all_sprites.add(treedown2)
+        all_trees.add(treeup2)
+        all_trees.add(treedown2)
+
+
+        treeup2.rect.y = random.randint(-TREE_HEIGHT, 0)
+        treedown2.rect.y = treeup2.rect.y + TREE_HEIGHT + 164
+
+        treeup2.speedx = -1.5
+        treedown2.speedx = -1.5
+
+        tup2 = True
+
+
+    if tup2:
+        if treeup2.rect.x == 500:
+            treeup1 = Treeup(assets)
+            treedown1 = Treedown(assets)
+
+            all_sprites.add(treeup1)
+            all_sprites.add(treedown1)
+            all_trees.add(treeup1)
+            all_trees.add(treedown1)
+
+            treeup1.rect.y = random.randint(-TREE_HEIGHT, 0)
+            treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
+
+            treeup1.speedx = -1.5
+            treedown1.speedx = -1.5    
+
+
+    hits = pygame.sprite.spritecollide(player, all_trees, True)
+    if len(hits) > 0:
+        game = False   
+
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências
@@ -210,14 +228,12 @@ while game:
             game = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                player.speedy = -10
-                treeup.speedx = -8
-                treedown.speedx = -8
+                player.speedy = -1.3
+                treeup1.speedx = -1.5
+                treedown1.speedx = -1.5
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
-                player.speedy = 10
-                treeup.speedx = -8
-                treedown.speedx = -8
+                player.speedy = 1.7
 
     all_sprites.update()
  
