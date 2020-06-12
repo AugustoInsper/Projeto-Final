@@ -5,6 +5,7 @@ import random
 import time
  
 pygame.init()
+pygame.mixer.init()
 
 # ----- Gera tela principal
 WIDTH = 1000
@@ -30,7 +31,7 @@ for i in range(49):
     # Os arquivos de animação são numerados de 00 a 48
     filename = 'forest frames/frame{}.jpg'.format(i)
     img = pygame.image.load(filename).convert()
-    img = pygame.transform.scale(img, (int(WIDTH), int(HEIGHT)))
+    img = pygame.transform.scale(img, (int(2*WIDTH), int(2*HEIGHT)))
     background_anim.append(img)
 assets["background_anim"] = background_anim
 
@@ -43,6 +44,9 @@ for i in range(73):
     player_anim.append(img)
 assets["player_anim"] = player_anim
 
+# Carrega os áudios do Flepássaro
+pygame.mixer.music.load('background sound.wav')
+pygame.mixer.music.set_volume(0.4)
 
 class Player(pygame.sprite.Sprite):
     # Construtor da classe.
@@ -179,6 +183,7 @@ treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
 tup2 = False
 
 # ===== Loop principal =====
+pygame.mixer.music.play(loops=-1)
 while game:
 
     if treeup1.rect.x == 500:
