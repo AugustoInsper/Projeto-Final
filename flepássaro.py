@@ -37,7 +37,7 @@ assets["background_anim"] = background_anim
 player_anim = []
 for i in range(73):
     # Os arquivos de animação são numerados de 00 a 72
-    filename = 'red bird frames/{}.png'.format(i)
+    filename = 'red_bird_frames/oie_transparent ({}).png'.format(i)
     img = pygame.image.load(filename).convert_alpha()
     img = pygame.transform.scale(img, (BIRD_WIDTH, BIRD_HEIGHT))   # pegar dimensões do passarinho
     player_anim.append(img)
@@ -182,7 +182,7 @@ while game:
                 treedown.speedx = -8
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
-                player.speedy = 10
+                player.speedy = 5
                 treeup.speedx = -8
                 treedown.speedx = -8
 
