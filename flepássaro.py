@@ -220,7 +220,7 @@ while game:
             treedown1.speedx = -1.5 
 
 
-    if treeup1.rect.x = bird_x or treeup2.rect.x = bird_x:
+    if treeup1.rect.x == bird_x or treeup2.rect.x == bird_x:
         score += 10
 
 
