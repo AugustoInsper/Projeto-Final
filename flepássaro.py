@@ -10,7 +10,7 @@ pygame.init()
 WIDTH = 1000
 HEIGHT = 600
 window = pygame.display.set_mode((WIDTH, HEIGHT))
-pygame.display.set_caption('Hello World!')
+pygame.display.set_caption('Flepássaro')
  
 # ----- Inicia assets
 BIRD_WIDTH = 100
@@ -28,7 +28,7 @@ background_anim = []
 win_rect = window.get_rect()
 for i in range(60):
     # Os arquivos de animação são numerados de 00 a 59
-    filename = 'source frames/frame_{}_delay-0.1s.png'.format(i)
+    filename = 'source frames/frame00{i}.png'.format(i)
     img = pygame.image.load(filename).convert()
     img = pygame.transform.scale(img, (int(2*WIDTH), int(2*HEIGHT)))
     background_anim.append(img)
@@ -42,6 +42,7 @@ for i in range(73):
     img = pygame.transform.scale(img, (BIRD_WIDTH, BIRD_HEIGHT))   # pegar dimensões do passarinho
     player_anim.append(img)
 assets["player_anim"] = player_anim
+assets["score_font"] = pygame.font.Font('assets/font/PressStart2P.ttf', 28)
 
 
 class Player(pygame.sprite.Sprite):
@@ -53,6 +54,7 @@ class Player(pygame.sprite.Sprite):
         self.player_anim = assets['player_anim']
         self.frame = 0  # Armazena o índice atual na animação
         self.image = self.player_anim[self.frame]  # Pega a primeira imagem
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.center = center  # Posiciona o centro da imagem
         self.last_update = pygame.time.get_ticks()
@@ -177,6 +179,7 @@ treeup1.rect.y = random.randint(-TREE_HEIGHT, 0)
 treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
 
 tup2 = False
+score = 0
 
 # ===== Loop principal =====
 while game:
@@ -214,7 +217,11 @@ while game:
             treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
 
             treeup1.speedx = -1.5
-            treedown1.speedx = -1.5    
+            treedown1.speedx = -1.5 
+
+
+    if treeup1.rect.x = bird_x or treeup2.rect.x = bird_x:
+        score += 10
 
 
     hits = pygame.sprite.spritecollide(player, all_trees, True)
@@ -223,7 +230,7 @@ while game:
 
     # ----- Trata eventos
     for event in pygame.event.get():
-        # ----- Verifica consequências
+        # ----- Verifica consequências:
         if event.type == pygame.QUIT:
             game = False
         if event.type == pygame.KEYDOWN:
@@ -240,6 +247,12 @@ while game:
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
     all_sprites.draw(window)
+
+
+    text_surface = assets['score_font'].render("{:06d}".format(score), True, (255, 255, 0))
+    text_rect = text_surface.get_rect()
+    text_rect.midtop = (WIDTH / 2,  10)
+    window.blit(text_surface, text_rect)
  
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
