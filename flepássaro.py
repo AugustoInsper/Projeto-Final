@@ -42,7 +42,8 @@ for i in range(73):
     img = pygame.transform.scale(img, (BIRD_WIDTH, BIRD_HEIGHT))   # pegar dimensões do passarinho
     player_anim.append(img)
 assets["player_anim"] = player_anim
-assets["score_font"] = pygame.font.Font('assets/font/PressStart2P.ttf', 28)
+assets["score_font"] = pygame.font.Font('PressStart2P.ttf', 28)
+
 
 
 class Player(pygame.sprite.Sprite):
@@ -76,6 +77,7 @@ class Player(pygame.sprite.Sprite):
                 # Se ainda não chegou ao fim da explosão, troca de imagem.
                 center = self.rect.center
                 self.image = self.player_anim[self.frame]
+                self.mask = pygame.mask.from_surface(self.image)
                 self.rect = self.image.get_rect()
                 self.rect.center = center
 
@@ -97,9 +99,10 @@ class Background(pygame.sprite.Sprite):
         self.frame = 0  # Armazena o índice atual na animação
         self.image = self.background_anim[self.frame]  # Pega a primeira imagem
         self.rect = self.image.get_rect()
-        self.rect.center = center  # Posiciona o centro da imagem
+        self.rect.x = 0  # Posiciona o centro da imagem
+        self.rect.y = 0
         self.last_update = pygame.time.get_ticks()
-        self.frame_ticks = 50
+        self.frame_ticks = 100
 
     
     def update(self):
@@ -126,6 +129,7 @@ class Treeup(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = assets['tronco']
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.x = 1100
         self.rect.y = 0
@@ -140,6 +144,7 @@ class Treedown(pygame.sprite.Sprite):
         pygame.sprite.Sprite.__init__(self)
 
         self.image = assets['tronco']
+        self.mask = pygame.mask.from_surface(self.image)
         self.rect = self.image.get_rect()
         self.rect.x = 1100
         self.rect.y = 0
@@ -148,8 +153,44 @@ class Treedown(pygame.sprite.Sprite):
     def update(self):
         self.rect.x += self.speedx
 
+
+def menu(screen):
+    # Variável para o ajuste de velocidade
+   # clock = pygame.time.Clock()
+    game = True
+
+    # Carrega o fundo da tela inicial
+    inicio = pygame.image.load('Capa_flepassaro.jpg').convert()
+    inicio = pygame.transform.scale(inicio, (WIDTH, HEIGHT))
+    inicio_rect = inicio.get_rect()
+
+    inits = True
+
+    while inits:
+        # Ajusta a velocidade do jogo.
+    #    clock.tick(FPS)
+
+        # Processa os eventos (mouse, teclado, botão, etc).
+        for event in pygame.event.get():
+            # Verifica se foi fechado.
+            if event.type == pygame.QUIT:
+                init = False
+                game = False
+
+            if event.type == pygame.KEYUP:
+                inits = False
+
+        # A cada loop, redesenha o fundo e os sprites
+        screen.fill((0, 0, 0))
+        screen.blit(inicio, inicio_rect)
+
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
+
+    return game
+
+
 # ----- Inicia estruturas de dados
-game = True
  
 bird_x = 250
 bird_y = 200
@@ -179,11 +220,17 @@ treeup1.rect.y = random.randint(-TREE_HEIGHT, 0)
 treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
 
 tup2 = False
+game = True
 score = 0
+trees_speedx = -1.0
+player_speedy = 1.3
+
+menu(window)
 
 # ===== Loop principal =====
 while game:
-
+    
+    # Se a árvore 1 chega em determinado ponto x, é criada a ávore 2:
     if treeup1.rect.x == 500:
         treeup2 = Treeup(assets)
         treedown2 = Treedown(assets)
@@ -197,12 +244,12 @@ while game:
         treeup2.rect.y = random.randint(-TREE_HEIGHT, 0)
         treedown2.rect.y = treeup2.rect.y + TREE_HEIGHT + 164
 
-        treeup2.speedx = -1.5
-        treedown2.speedx = -1.5
+        treeup2.speedx = trees_speedx
+        treedown2.speedx = trees_speedx
 
         tup2 = True
 
-
+# Se a ávore 2 chegar em determinado ponto x, a árvore 1 é recriada:
     if tup2:
         if treeup2.rect.x == 500:
             treeup1 = Treeup(assets)
@@ -216,17 +263,19 @@ while game:
             treeup1.rect.y = random.randint(-TREE_HEIGHT, 0)
             treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
 
-            treeup1.speedx = -1.5
-            treedown1.speedx = -1.5 
+            treeup1.speedx = trees_speedx
+            treedown1.speedx = trees_speedx
 
+    if tup2:
+        if treeup1.rect.x == bird_x or treeup2.rect.x == bird_x:
+            score += 10
 
-    if treeup1.rect.x == bird_x or treeup2.rect.x == bird_x:
-        score += 10
-
-
-    hits = pygame.sprite.spritecollide(player, all_trees, True)
+    hits = pygame.sprite.spritecollide(player, all_trees, False, pygame.sprite.collide_mask)
     if len(hits) > 0:
-        game = False   
+        game = False  
+
+    if  player.rect.y == HEIGHT - BIRD_HEIGHT:
+        game = False
 
     # ----- Trata eventos
     for event in pygame.event.get():
@@ -235,19 +284,19 @@ while game:
             game = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                player.speedy = -1.3
-                treeup1.speedx = -1.5
-                treedown1.speedx = -1.5
+                player.speedy = - player_speedy
+                treeup1.speedx = trees_speedx
+                treedown1.speedx = trees_speedx
         if event.type == pygame.KEYUP:
             if event.key == pygame.K_SPACE:
-                player.speedy = 1.7
+                player.speedy = player_speedy
+
 
     all_sprites.update()
  
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
     all_sprites.draw(window)
-
 
     text_surface = assets['score_font'].render("{:06d}".format(score), True, (255, 255, 0))
     text_rect = text_surface.get_rect()
