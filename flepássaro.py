@@ -17,7 +17,7 @@ pygame.display.set_caption('Flepássaro')
 BIRD_WIDTH = 100
 BIRD_HEIGHT = 82
 TREE_WIDTH = 108
-TREE_HEIGHT = HEIGHT - 123
+TREE_HEIGHT = HEIGHT
 
 assets = {}
 # font = pygame.font.SysFont(None, 48)
@@ -160,8 +160,8 @@ class Treedown(pygame.sprite.Sprite):
 
 def menu(screen):
     # Variável para o ajuste de velocidade
-   # clock = pygame.time.Clock()
-    game = True
+    # clock = pygame.time.Clock()
+    # game = True
 
     # Carrega o fundo da tela inicial
     inicio = pygame.image.load('Capa_flepassaro.jpg').convert()
@@ -179,10 +179,11 @@ def menu(screen):
             # Verifica se foi fechado.
             if event.type == pygame.QUIT:
                 init = False
-                game = False
+                state = CLOSE
 
             if event.type == pygame.KEYUP:
                 inits = False
+                state = GAME
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill((0, 0, 0))
@@ -191,7 +192,42 @@ def menu(screen):
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
 
-    return game
+    return state
+
+
+
+def gameover(screen): 
+    # Carrega o fundo da tela inicial
+    fim = pygame.image.load('Capa_flepassaro.jpg').convert()
+    fim = pygame.transform.scale(fim, (WIDTH, HEIGHT))
+    fim_rect = fim.get_rect()
+
+    finals = True
+
+    while finals:
+        # Ajusta a velocidade do jogo.
+    #    clock.tick(FPS)
+
+        # Processa os eventos (mouse, teclado, botão, etc).
+        for event in pygame.event.get():
+            # Verifica se foi fechado.
+            if event.type == pygame.QUIT:
+                finals = False
+                state = CLOSE
+
+            if event.type == pygame.KEYUP:
+                if event.key == pygame.K_SPACE:
+                    finals = False
+                    state = CLOSE
+
+        # A cada loop, redesenha o fundo e os sprites
+        screen.fill((0, 0, 0))
+        screen.blit(fim, fim_rect)
+
+        # Depois de desenhar tudo, inverte o display.
+        pygame.display.flip()
+
+    return state
 
 
 # ----- Inicia estruturas de dados
@@ -220,23 +256,25 @@ all_sprites.add(player)
 all_sprites.add(treeup1)
 all_sprites.add(treedown1)
 
-treeup1.rect.y = random.randint(-TREE_HEIGHT, 0)
-treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
+treeup1.rect.y = random.randint(-TREE_HEIGHT, -205)
+treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 205
 
 tup2 = False
-game = True
 score = 0
 trees_speedx = -1.0
 player_speedy = 1.3
 
-menu(window)
+GAME = 0
+CLOSE = 1
+state = menu(window)
 
 # ===== Loop principal =====
 pygame.mixer.music.play(loops=-1)
-while game:
+
+while state == GAME:
     
     # Se a árvore 1 chega em determinado ponto x, é criada a ávore 2:
-    if treeup1.rect.x == 500:
+    if treeup1.rect.x == 600:
         treeup2 = Treeup(assets)
         treedown2 = Treedown(assets)
 
@@ -246,8 +284,8 @@ while game:
         all_trees.add(treedown2)
 
 
-        treeup2.rect.y = random.randint(-TREE_HEIGHT, 0)
-        treedown2.rect.y = treeup2.rect.y + TREE_HEIGHT + 164
+        treeup2.rect.y = random.randint(-TREE_HEIGHT, -205)
+        treedown2.rect.y = treeup2.rect.y + TREE_HEIGHT + 205
 
         treeup2.speedx = trees_speedx
         treedown2.speedx = trees_speedx
@@ -256,7 +294,7 @@ while game:
 
 # Se a ávore 2 chegar em determinado ponto x, a árvore 1 é recriada:
     if tup2:
-        if treeup2.rect.x == 500:
+        if treeup2.rect.x == 600:
             treeup1 = Treeup(assets)
             treedown1 = Treedown(assets)
 
@@ -265,8 +303,8 @@ while game:
             all_trees.add(treeup1)
             all_trees.add(treedown1)
 
-            treeup1.rect.y = random.randint(-TREE_HEIGHT, 0)
-            treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 164
+            treeup1.rect.y = random.randint(-TREE_HEIGHT, -205)
+            treedown1.rect.y = treeup1.rect.y + TREE_HEIGHT + 205
 
             treeup1.speedx = trees_speedx
             treedown1.speedx = trees_speedx
@@ -277,16 +315,16 @@ while game:
 
     hits = pygame.sprite.spritecollide(player, all_trees, False, pygame.sprite.collide_mask)
     if len(hits) > 0:
-        game = False  
+        state = CLOSE
 
     if  player.rect.y == HEIGHT - BIRD_HEIGHT:
-        game = False
+        state = CLOSE
 
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências:
         if event.type == pygame.QUIT:
-            game = False
+            state = CLOSE
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 player.speedy = - player_speedy
@@ -298,7 +336,7 @@ while game:
 
 
     all_sprites.update()
- 
+
     # ----- Gera saídas
     window.fill((255, 255, 255))  # Preenche com a cor branca
     all_sprites.draw(window)
@@ -307,7 +345,10 @@ while game:
     text_rect = text_surface.get_rect()
     text_rect.midtop = (WIDTH / 2,  10)
     window.blit(text_surface, text_rect)
- 
+
+    if state == CLOSE:
+        gameover(window)
+
     # ----- Atualiza estado do jogo
     pygame.display.update()  # Mostra o novo frame para o jogador
  
