@@ -165,7 +165,7 @@ def menu(screen):
 
     # Carrega o fundo da tela inicial
     inicio = pygame.image.load('Capa_flepassaro.jpg').convert()
-    inicio = pygame.transform.scale(inicio, (WIDTH, HEIGHT))
+    inicio = pygame.transform.scale(inicio, (1000, 389))
     inicio_rect = inicio.get_rect()
 
     inits = True
@@ -195,10 +195,9 @@ def menu(screen):
     return state
 
 
-
 def gameover(screen): 
     # Carrega o fundo da tela inicial
-    fim = pygame.image.load('Capa_flepassaro.jpg').convert()
+    fim = pygame.image.load('perdeu.jpg').convert()
     fim = pygame.transform.scale(fim, (WIDTH, HEIGHT))
     fim_rect = fim.get_rect()
 
