@@ -20,15 +20,14 @@ TREE_WIDTH = 108
 TREE_HEIGHT = HEIGHT
 
 assets = {}
-# font = pygame.font.SysFont(None, 48)
-
 assets['tronco'] = pygame.image.load('tronco.png').convert_alpha()
 assets['tronco'] = pygame.transform.scale(assets['tronco'], (TREE_WIDTH, TREE_HEIGHT))
-
 background_anim = []
-win_rect = window.get_rect()
-i=191
 
+# No gif de onde foram pegos os seguintes frames, as árvores inicialmente estavam se movendo da esquerda para a direita,
+# o que não faz sentido ao analisar a ideia de movimento em relação ao player que queremos passar, por isso,
+# tivemos.
+i=191
 while i>=0:
     # Os arquivos de animação são numerados de 00 a 48
     filename = 'background_frames/frame{}-0000.jpg'.format(i)
@@ -226,6 +225,11 @@ def gameover(screen):
         screen.fill((0, 0, 0))
         screen.blit(fim, fim_rect)
 
+        text_surface = assets['score_font'].render("{:00d}".format(score), True, (0, 0, 0))
+        text_rect = text_surface.get_rect()
+        text_rect.midtop = (WIDTH / 2,  10)
+        window.blit(text_surface, text_rect)
+
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
 
@@ -276,7 +280,7 @@ pygame.mixer.music.play(loops=-1)
 while state == GAME:
     
     # Se a árvore 1 chega em determinado ponto x, é criada a ávore 2:
-    if treeup1.rect.x == 600:
+    if treeup1.rect.x == 650:
         treeup2 = Treeup(assets)
         treedown2 = Treedown(assets)
 
@@ -294,9 +298,9 @@ while state == GAME:
 
         tup2 = True
 
-# Se a ávore 2 chegar em determinado ponto x, a árvore 1 é recriada:
+    # Se a ávore 2 chega em determinado ponto x, a árvore 1 é recriada:
     if tup2:
-        if treeup2.rect.x == 600:
+        if treeup2.rect.x == 650:
             treeup1 = Treeup(assets)
             treedown1 = Treedown(assets)
 
@@ -313,7 +317,7 @@ while state == GAME:
 
     if tup2:
         if treeup1.rect.x == bird_x or treeup2.rect.x == bird_x:
-            score += 10
+            score += 1
 
     hits = pygame.sprite.spritecollide(player, all_trees, False, pygame.sprite.collide_mask)
     if len(hits) > 0:
@@ -346,12 +350,16 @@ while state == GAME:
     window.fill((255, 255, 255))  # Preenche com a cor branca
     all_sprites.draw(window)
 
-    text_surface = assets['score_font'].render("{:06d}".format(score), True, (255, 255, 0))
+    text_surface = assets['score_font'].render("{:00d}".format(score), True, (255, 255, 0))
     text_rect = text_surface.get_rect()
     text_rect.midtop = (WIDTH / 2,  10)
     window.blit(text_surface, text_rect)
 
     if state == CLOSE:
+        pygame.mixer.music.stop()
+        pygame.mixer.music.load('game over.mp3')
+        pygame.mixer.music.set_volume(0.4)
+        pygame.mixer.music.play(loops = 0)
 
         gameover(window)
 
