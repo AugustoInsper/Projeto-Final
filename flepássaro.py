@@ -276,7 +276,7 @@ pygame.mixer.music.play(loops=-1)
 while state == GAME:
     
     # Se a árvore 1 chega em determinado ponto x, é criada a ávore 2:
-    if treeup1.rect.x == 600:
+    if treeup1.rect.x == 800:
         treeup2 = Treeup(assets)
         treedown2 = Treedown(assets)
 
@@ -296,7 +296,7 @@ while state == GAME:
 
 # Se a ávore 2 chegar em determinado ponto x, a árvore 1 é recriada:
     if tup2:
-        if treeup2.rect.x == 600:
+        if treeup2.rect.x == 800:
             treeup1 = Treeup(assets)
             treedown1 = Treedown(assets)
 
