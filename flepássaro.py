@@ -27,11 +27,11 @@ assets['tronco'] = pygame.transform.scale(assets['tronco'], (TREE_WIDTH, TREE_HE
 
 background_anim = []
 win_rect = window.get_rect()
-for i in range(49):
+for i in range(192):
     # Os arquivos de animação são numerados de 00 a 48
-    filename = 'forest frames/frame{}.jpg'.format(i)
+    filename = 'background_frames/frame{}-0000.jpg'.format(i)
     img = pygame.image.load(filename).convert()
-    img = pygame.transform.scale(img, (int(2*WIDTH), int(2*HEIGHT)))
+    img = pygame.transform.scale(img, (int(WIDTH), int(HEIGHT)))
     background_anim.append(img)
 assets["background_anim"] = background_anim
 
