@@ -27,12 +27,15 @@ assets['tronco'] = pygame.transform.scale(assets['tronco'], (TREE_WIDTH, TREE_HE
 
 background_anim = []
 win_rect = window.get_rect()
-for i in range(192):
+i=191
+
+while i>=0:
     # Os arquivos de animação são numerados de 00 a 48
     filename = 'background_frames/frame{}-0000.jpg'.format(i)
     img = pygame.image.load(filename).convert()
     img = pygame.transform.scale(img, (int(WIDTH), int(HEIGHT)))
     background_anim.append(img)
+    i-=1
 assets["background_anim"] = background_anim
 
 player_anim = []
@@ -178,7 +181,7 @@ def menu(screen):
         for event in pygame.event.get():
             # Verifica se foi fechado.
             if event.type == pygame.QUIT:
-                init = False
+                inits = False
                 state = CLOSE
 
             if event.type == pygame.KEYUP:
@@ -187,7 +190,7 @@ def menu(screen):
 
         # A cada loop, redesenha o fundo e os sprites
         screen.fill((0, 0, 0))
-        screen.blit(inicio, inicio_rect)
+        screen.blit(inicio, (0, HEIGHT/2 - int(389/2)))
 
         # Depois de desenhar tudo, inverte o display.
         pygame.display.flip()
@@ -215,7 +218,7 @@ def gameover(screen):
                 state = CLOSE
 
             if event.type == pygame.KEYUP:
-                if event.key == pygame.K_SPACE:
+                if event.key == pygame.K_ESCAPE:
                     finals = False
                     state = CLOSE
 
@@ -319,6 +322,9 @@ while state == GAME:
     if  player.rect.y == HEIGHT - BIRD_HEIGHT:
         state = CLOSE
 
+    if  player.rect.y == 0:
+        state = CLOSE
+
     # ----- Trata eventos
     for event in pygame.event.get():
         # ----- Verifica consequências:
@@ -346,6 +352,7 @@ while state == GAME:
     window.blit(text_surface, text_rect)
 
     if state == CLOSE:
+
         gameover(window)
 
     # ----- Atualiza estado do jogo
