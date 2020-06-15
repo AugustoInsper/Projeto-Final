@@ -20,7 +20,7 @@ TREE_HEIGHT = HEIGHT
 
 # ----- Inicia assets
 assets = {}
-assets['tronco'] = pygame.image.load('tronco.png').convert_alpha()
+assets['tronco'] = pygame.image.load('imagens/tronco.png').convert_alpha()
 assets['tronco'] = pygame.transform.scale(assets['tronco'], (TREE_WIDTH, TREE_HEIGHT))
 background_anim = []
 
@@ -45,11 +45,11 @@ for i in range(73):
     img = pygame.transform.scale(img, (BIRD_WIDTH, BIRD_HEIGHT))
     player_anim.append(img)
 assets["player_anim"] = player_anim
-assets["score_font"] = pygame.font.Font('PressStart2P.ttf', 28)
+assets["score_font"] = pygame.font.Font('fonte/PressStart2P.ttf', 28)
 
 
 # Carrega os áudios do Flepássaro
-pygame.mixer.music.load('background sound.wav')
+pygame.mixer.music.load('Sons/background sound.wav')
 pygame.mixer.music.set_volume(0.4)
 
 # Inicia classes
@@ -165,7 +165,7 @@ class Treedown(pygame.sprite.Sprite):           # Classe dos troncos que vão ap
 
 def menu(screen):
     # Carrega o fundo da tela inicial
-    inicio = pygame.image.load('Capa_flepassaro.jpg').convert()
+    inicio = pygame.image.load('imagens/Capa_flepassaro.jpg').convert()
     inicio = pygame.transform.scale(inicio, (1000, 389))
     inicio_rect = inicio.get_rect()
 
@@ -190,7 +190,7 @@ def menu(screen):
 
 def gameover(screen): 
     # Carrega o fundo da tela inicial
-    fim = pygame.image.load('perdeu.jpg').convert()
+    fim = pygame.image.load('imagens/perdeu.jpg').convert()
     fim = pygame.transform.scale(fim, (WIDTH, HEIGHT))
     fim_rect = fim.get_rect()
 
@@ -337,7 +337,7 @@ while state == GAME:
     # Se o estado é "CLOSE", começa a nova música para a tela de Game Over e chama a classe responsável por essa parte do jogo
     if state == CLOSE:
         pygame.mixer.music.stop()
-        pygame.mixer.music.load('game over.mp3')
+        pygame.mixer.music.load('Sons/game over.mp3')
         pygame.mixer.music.set_volume(0.4)
         pygame.mixer.music.play(loops = 0)
 
