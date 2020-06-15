@@ -165,7 +165,7 @@ class Treedown(pygame.sprite.Sprite):           # Classe dos troncos que vão ap
 
 def menu(screen):
     # Carrega o fundo da tela inicial
-    inicio = pygame.image.load('imagens/Capa_flepassaro.jpg').convert()
+    inicio = pygame.image.load('Capa_flepassaro.jpg').convert()
     inicio = pygame.transform.scale(inicio, (1000, 389))
     inicio_rect = inicio.get_rect()
 
@@ -348,3 +348,4 @@ while state == GAME:
  
 # ===== Finalização =====
 pygame.quit()  # Função do PyGame que finaliza os recursos utilizados
+
